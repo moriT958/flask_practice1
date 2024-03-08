@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}ToDoリスト{% endblock %}
+
+{% block content %}
+
+    <h1>My ToDo Tasks</h1>
+
+    <form action="{{ url_for('todo.create') }}" method="post">
+        <label for="taskname">タスクを追加</label>
+        <input type="text" id="taskname" name="taskname" placeholder="Input here" value="{{ request.form['taskname'] }}" required>
+        <input type="submit" value="追加">
+    </form>
+
+    <h2>ToDoリスト</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>タスク</th>
+                <th>状態</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+                <tr>
+                    <td>{{ task['taskname'] }}</td>
+                    <td>
+                        {% if task['status'] == 0 %}
+                            未完了
+                        {% elif task['status'] == 1 %}
+                            進行中
+                        {% else %}
+                            完了
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ url_for('todo.update', id=task['id']) }}">編集</a>
+                    </td>
+                    <td>
+                        <form action="{{ url_for('todo.delete', id=task['id']) }}" method="post">
+                            <input class="danger" type="submit" value="削除" onclick="return confirm('本当にいいですか?');">
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+{% endblock %}

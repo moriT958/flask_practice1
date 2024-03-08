@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}タスクの編集{% endblock %}
+
+{% block content %}
+
+    <h1>編集</h1>
+
+    <form method="post">
+        <label for="taskname">タスク名を変更</label>
+        <input type="text" id="taskname" name="taskname" placeholder="Input here" value="{{ request.form['taskname'] or task['taskname'] }}" required>
+
+        <label for="status">進行状況を更新</label>
+        <select name="status" id="status">
+            <option value="">-- 選択 --</option>
+            {% for i in range(3) %}
+                {% if i == 0 %}
+                    <option value="{{ i }}">未完了</option>
+                {% elif i == 1 %}
+                    <option value="{{ i }}">進行中</option>
+                {% else %}
+                    <option value="{{ i }}">完了</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+
+        <input type="submit" value="完了">
+    </form>
+    
+{% endblock %}
